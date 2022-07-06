@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opentrivia/pages/quiz.dart';
 import 'package:opentrivia/ui/pages/home.dart';
 
 void main() => runApp(MyApp());
@@ -8,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Open Trivia',
+      title: 'Hirring Mirror',
       theme: ThemeData(
         primarySwatch: Colors.pink,
         accentColor: Colors.indigo,
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary
         )
       ),
-      home: HomePage(),
+      home: ProfilePage(),
     );
   }
 }

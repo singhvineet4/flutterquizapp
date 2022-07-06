@@ -27,12 +27,13 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     Question question = widget.questions[_currentIndex];
-    final List<dynamic> options = question.incorrectAnswers;
-    if (!options.contains(question.correctAnswer)) {
-      options.add(question.correctAnswer);
-      options.shuffle();
+    final List<dynamic> option = question.answer as List;
+    if (!option.contains(question.answer)) {
+      option.add(question.answer);
+      option.shuffle();
     }
 
+    var options;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(

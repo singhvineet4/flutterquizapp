@@ -1,3 +1,4 @@
+
 enum Type {
   multiple,
   boolean
@@ -9,26 +10,33 @@ enum Difficulty {
   hard
 }
 
-class Question {
-  final String categoryName;
-  final Type type;
-  final Difficulty difficulty;
+
+class Question{
+  Question({
+   // this.quiz_id,
+    this.question,
+    this.option,
+    this.answer,
+
+  });
+
+  //final String quiz_id;
   final String question;
-  final String correctAnswer;
-  final List<dynamic> incorrectAnswers;
+  final String option;
+  final String answer;
 
-  Question({this.categoryName, this.type, this.difficulty, this.question, this.correctAnswer, this.incorrectAnswers});
-
-  Question.fromMap(Map<String, dynamic> data):
-    categoryName = data["category"],
-    type = data["type"] == "multiple" ? Type.multiple : Type.boolean,
-    difficulty = data["difficulty"] == "easy" ? Difficulty.easy : data["difficulty"] == "medium" ? Difficulty.medium : Difficulty.hard,
-    question = data["question"],
-    correctAnswer = data["correct_answer"],
-    incorrectAnswers = data["incorrect_answers"];
-
-  static List<Question> fromData(List<Map<String,dynamic>> data){
-    return data.map((question) => Question.fromMap(question)).toList();
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
+     // quiz_id: json["quiz_id"],
+      question: json["question"],
+      option: json["option"],
+      answer: json["answer"],
+    );
   }
 
+ // static Future<List<Question>> fromData(decode) {}
+
+  //String get email => null;
+
+  //String get password => null;
 }
