@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-
 import '../models/question.dart';
 
 
@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Hirring Mirror"),),
+        appBar: AppBar(title: Text("Hiring Mirror"),),
         body: ListView.builder(
           itemCount: this.items.length,
           itemBuilder: _listViewItemBuilder,
@@ -42,54 +42,53 @@ class _ProfilePageState extends State<ProfilePage>{
     var jobDetail = this.items[index];
     return Card(
       child: ListTile(
-          contentPadding: EdgeInsets.all(20.30),
-          subtitle: _itemThumbnail(jobDetail),
-          title: _itemTitle(jobDetail),
-          //leading: Image.asset('assets/favicon.png'),
-          //tileColor: const Color.fromARGB(20, 30, 50, 10) ,
-          selectedTileColor: Colors.lightBlueAccent,
-          shape: BeveledRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          // onTap: () { d nm,./
-          // _navigationToJobDetail(context, jobDetail);
-          //},
+        contentPadding: EdgeInsets.all(20.30),
+        subtitle: _itemThumbnail(jobDetail),
+        title: _itemTitle(jobDetail),
+        selectedTileColor: Colors.lightBlueAccent,
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(150),
+        ),
       ),
+
     );   //onTap: () {
   }
 
-  //void _navigationToJobDetail(BuildContext context, JobDetail jobDetail){
-  // Navigator.push(
-  // context,
-  //MaterialPageRoute(
-  //builder: (context){return JobInfo(jobDetail);}
-  //)
-  //);
-  //}
-
-  //Widget _navigationToJobDetail(JobDetail jobDetail){
-  //return Text(jobDetail.job_location_locality);
-  //}
 
   Widget _itemTitle(Question jobDetail){
     return Text(jobDetail.question);
   }
 
   Widget _itemThumbnail(Question jobDetail){
-    return Text(jobDetail.option);
+    return Text(jobDetail.answers);
   }
 
-  Future getJob() async{
-    final http.Response response = await http.get(Uri.parse("https://www.hiringmirror.com/api/assigned-quiz.php?quiz_id=26"));
 
+
+  Future <Question> getJob() async{
+    final http.Response response = await http.get(Uri.parse("https://www.hiringmirror.com/api/assigned-quiz.php?quiz_id=26"));
+   // print(response.toString());
     var responseData = json.decode(response.body);
     var queArr=responseData['quiz_ques'];
-    print(queArr);
     queArr.forEach((jobDetail) {
+     // print(jobDetail['answers'].length);
+      //print(jobDetail['answers'][3]['answer']);
+        var len = jobDetail['answers'].length;
+        var ansoptions='';
+        for(var k=0;k<len;k++)
+          {
+          var ans= jobDetail['answers'][k]['answer'];
+         print(ans);
+          if(k==0)
+            ansoptions =ans;
+          else
+            ansoptions =ansoptions+','+ans;
+          }
+
       final Question question = Question(
-       // id: jobDetail['id'],
-        question: jobDetail['question'],
-        option: jobDetail['option'],
+        //quiz_id: jobDetail['quiz_id'],
+        question: "Question"+ jobDetail['question'],
+        answers: ansoptions,
       );
       setState(() {
         items.add(question);
@@ -98,11 +97,11 @@ class _ProfilePageState extends State<ProfilePage>{
   }
 }
 
+//Start Timing Durention
 
-
-
-
-
-
-
-
+void startTimer(){
+  Timer timer = new Timer.periodic(new Duration(seconds: 15),(time) {
+    print('Something');
+    time.cancel();
+  });
+}

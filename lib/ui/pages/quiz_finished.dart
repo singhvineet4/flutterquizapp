@@ -15,7 +15,7 @@ class QuizFinishedPage extends StatelessWidget {
   Widget build(BuildContext context){
     int correct = 0;
     this.answers.forEach((index,value){
-      if(this.questions[index].answer == value)
+      if(this.questions[index].answers == value)
         correct++;
     });
     final TextStyle titleStyle = TextStyle(

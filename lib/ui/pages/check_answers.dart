@@ -47,7 +47,7 @@ class CheckAnswersPage extends StatelessWidget {
       );
     }
     Question question = questions[index];
-    bool correct = question.answer == answers[index];
+    bool correct = question.answers == answers[index];
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,7 +69,7 @@ class CheckAnswersPage extends StatelessWidget {
             correct ? Container(): Text.rich(TextSpan(
               children: [
                 TextSpan(text: "Answer: "),
-                TextSpan(text: HtmlUnescape().convert(question.answer) , style: TextStyle(
+                TextSpan(text: HtmlUnescape().convert(question.answers) , style: TextStyle(
                   fontWeight: FontWeight.w500
                 ))
               ]

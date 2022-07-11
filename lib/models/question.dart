@@ -12,27 +12,25 @@ enum Difficulty {
 
 
 class Question{
-  Question({
-   // this.quiz_id,
-    this.question,
-    this.option,
-    this.answer,
-
-  });
-
-  //final String quiz_id;
   final String question;
-  final String option;
-  final String answer;
+  final String answers;
+
+
+    const Question({
+    this.question,
+    this.answers,
+  });
 
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
      // quiz_id: json["quiz_id"],
       question: json["question"],
-      option: json["option"],
-      answer: json["answer"],
+      answers: json["answers"],
+
     );
   }
+
+  checkIsQuestionAnswered(int questionId) {}
 
  // static Future<List<Question>> fromData(decode) {}
 

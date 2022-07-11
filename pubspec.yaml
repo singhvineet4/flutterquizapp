@@ -16,10 +16,20 @@ dependencies:
   html_unescape: ^1.0.1+2
   auto_size_text: ^2.0.0+2
   quiz_view: ^1.0.5
+  fluttertoast: ^8.0.9
+  get: ^4.6.5
+  dio: ^3.0.10
+  enum_to_string: ^1.0.14
+  equatable: ^1.2.6
+  flutter_hooks: ^0.15.0
+  html_character_entities: ^0.1.2+4
+  meta: ^1.2.4
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
 flutter:
