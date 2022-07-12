@@ -31,7 +31,6 @@ class CheckAnswersPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             itemCount: questions.length+1,
             itemBuilder: _buildItem,
-
           )
         ],
       ),
@@ -69,7 +68,7 @@ class CheckAnswersPage extends StatelessWidget {
             correct ? Container(): Text.rich(TextSpan(
               children: [
                 TextSpan(text: "Answer: "),
-                TextSpan(text: HtmlUnescape().convert(question.answers) , style: TextStyle(
+                TextSpan(text: HtmlUnescape().convert(question.answers.toString()) , style: TextStyle(
                   fontWeight: FontWeight.w500
                 ))
               ]

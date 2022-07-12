@@ -3,15 +3,17 @@ import 'package:get/get.dart';
 
 import '../../models/question.dart';
 import '../../pages/quiz.dart';
-import 'answer-option.dart';
+
 
 class QuestionCard extends StatelessWidget {
 
 const QuestionCard({Key key, this.question}) : super(key: key);
 final Question question;
-
 @override
 Widget build(BuildContext context) {
+
+
+
   return SingleChildScrollView(
     child: Container(
         height: 450,
@@ -39,12 +41,6 @@ Widget build(BuildContext context) {
                   question.answers.length,
                       (index) => Column(
                     children: [
-                      AnswerOption(
-                          questionId: question.checkIsQuestionAnswered(questionId),
-                          text: question.answers[index],
-                          index: index,
-                          onPressed: () => Get.find<ProfilePage>()
-                              .checkAnswer(question, index)),
                       const SizedBox(
                         height: 15,
                       )

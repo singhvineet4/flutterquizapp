@@ -1,100 +1,81 @@
-import 'dart:async';
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
-Future<Album> createAlbum(String postedata) async {
-  final http.Response response = await http.post(
-    Uri.parse('https://www.hiringmirror.com/api/submit-quiz-answers.php'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'postedata': postedata,
-    }),
-  );
-    print(response);
-  if (true) {
-    return Album.fromJson(json.decode(response.body));
-  } else {
-    throw Exception('Failed to create album.');
-  }
+
+
+class Home extends  StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
 }
 
-class Album {
-  final int id;
-  final String message;
+class _HomeState extends State<Home> {
+   Response response;
+  Dio dio = Dio();
 
-  Album({ this.id, this.message});
-
-  factory Album.fromJson(Map<String, dynamic> json) {
-    return Album(
-      id: json['id'],
-      message: json['message'],
-    );
-  }
-}
-
-
-
-class Answer extends StatefulWidget {
-  const Answer({Key key}) : super(key: key);
+  bool error = false; //for error status
+  bool loading = false; //for data featching status
+  String errmsg = ""; //to assing any error message from API/runtime
+  var apidata; //for decoded JSON data
 
   @override
-  _AnswerState createState() {
-    return _AnswerState();
+  void initState() {
+    getData(); //fetching data
+    super.initState();
   }
-}
 
-class _AnswerState extends State<Answer> {
-  final TextEditingController _controller = TextEditingController();
- Future<Album> _futureAlbum;
+  getData() async {
+    setState(() {
+      loading = true;
+    });
+
+    final url = "https://www.hiringmirror.com/api/submit-quiz-answers.php";
+
+
+    Response response = await dio.post(url);
+    apidata = response.data;
+
+    print(apidata); //printing the JSON recieved
+
+    if(response.statusCode == 200){
+      if(apidata["message"]){
+        error = true;
+        errmsg  = apidata["message"];
+      }
+    }else{
+      error = true;
+      errmsg = "Error while fetching data.";
+    }
+
+    loading = false;
+    setState(() {}); //refresh UI
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Creating Data',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          title: const Text('Answer Submit'),
-          backgroundColor: Colors.green,
+          title: Text("Submit"),
+          backgroundColor: Colors.redAccent,
         ),
-        body: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(8.0),
-          // ignore: unnecessary_null_comparison
-          child: (_futureAlbum == null)
-              ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(
-                child: const Text('Submit Quiz'),
-                onPressed: () {
-                  setState(() {
-                    _futureAlbum = createAlbum(_controller.text);
-                  });
-                },
-              ),
-            ],
-          )
-              : FutureBuilder<Album>(
-            future: _futureAlbum,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data.message);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
 
-              return const CircularProgressIndicator();
-            },
-          ),
-        ),
-      ),
+        body: Container(
+            alignment: Alignment.topCenter,
+            padding: EdgeInsets.all(20),
+            child: loading?
+            CircularProgressIndicator():
+            Container(
+                child:error?Text("error: $errmsg"):
+                Column(
+                  children:apidata["postedata"].map<Widget>((country){
+                    return Card(
+                      child: ListTile(
+                      ),
+                    );
+                  }).toList(),
+                )
+            )
+        )
     );
   }
 }

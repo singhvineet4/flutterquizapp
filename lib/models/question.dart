@@ -13,16 +13,18 @@ enum Difficulty {
 
 class Question{
   final String question;
-  final String answers;
-
+  final List answers;
+final int value;
 
     const Question({
+      this.value,
     this.question,
     this.answers,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
+      value: 999,
      // quiz_id: json["quiz_id"],
       question: json["question"],
       answers: json["answers"],

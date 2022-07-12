@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:opentrivia/pages/answer.dart';
+import 'package:opentrivia/pages/login_page.dart';
 import 'package:opentrivia/pages/quiz.dart';
+import 'package:opentrivia/ui/pages/demo-registration.dart';
 import 'package:opentrivia/ui/pages/home.dart';
+import 'package:opentrivia/ui/pages/login_demo.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,7 +27,7 @@ class MyApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary
         )
       ),
-      home: Answer(),
+      home: LoginPageo(),
     );
   }
 }

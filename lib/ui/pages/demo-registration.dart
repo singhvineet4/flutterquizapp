@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
-
 import '../../comman/theme_helper.dart';
 
 
@@ -300,6 +299,7 @@ class _Registrationdemo extends State<Registrationdemo> {
                           child: ElevatedButton(
                             style: ThemeHelper().buttonStyle(),
                             onPressed: () async {
+
                               AlertDialog alert = AlertDialog(
                                 elevation: 6.0,
                                 content: Text("Registration successfully"),
@@ -312,7 +312,6 @@ class _Registrationdemo extends State<Registrationdemo> {
                                   return alert;
                                 },
                               );
-
                               print('Posting data...');
                               await postData().then((value){
                                 //print(value);

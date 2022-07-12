@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
+import '../../pages/quiz.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key key}) : super(key: key);
 
@@ -28,7 +30,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
 
       if(response.statusCode == 200){
-
         var data = jsonDecode(response.body.toString());
         print(data);
         print('Login successfully');
@@ -44,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up Api'),
+        title: const Text('Sign In'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -76,9 +77,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(10)
                 ),
-                child: Center(child: Text('Login'),),
+                child: ElevatedButton(
+                  child: const Text('Submit'),
+                  onPressed: (){
+                    ProfilePage();
+                  },
+                )
+                ),
               ),
-            )
           ],
         ),
       ),
