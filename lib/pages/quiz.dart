@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:opentrivia/pages/result_screen.dart';
 import '../models/question.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:html/parser.dart';
 class ProfilePage extends StatefulWidget{
@@ -39,16 +38,12 @@ class _ProfilePageState extends State<ProfilePage>{
           controller: _allpagecont,
           scrollDirection: Axis.horizontal,
             itemCount: this.items.length,
-
             itemBuilder: (context,index){
-
-
-
           return Scaffold(
-
             floatingActionButton: FloatingActionButton.extended(
              label: this.items.length!=index+1?Text("Next"):Text("Finish"),
-              onPressed: (){
+              onPressed: () async{
+                Result();
                if( this.items.length!=index+1){
                  _allpagecont.animateToPage(index+1, duration: Duration(milliseconds: 300), curve: Curves.linear);
                }
@@ -56,7 +51,6 @@ class _ProfilePageState extends State<ProfilePage>{
                }
               },
             ),
-
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -73,6 +67,7 @@ class _ProfilePageState extends State<ProfilePage>{
                  return Row(
                    children: [
                      Radio(value: this.items[index]==999?false:this.items[index]==list_index?true:false,  onChanged: (vms){
+
                      }),
                      Text(this.items[index].answers[list_index]["answer"]),
                    ],
@@ -84,16 +79,6 @@ class _ProfilePageState extends State<ProfilePage>{
           );
         })
     );
-  }
-
-
-
-  Widget _itemTitle(Question jobDetail){
-    return Text(jobDetail.question);
-  }
-
-  Widget _itemThumbnail(Question jobDetail){
-    return Text(jobDetail.answers.toString());
   }
 
   int get countOfQuestion => _questionsList.length;
@@ -108,10 +93,7 @@ class _ProfilePageState extends State<ProfilePage>{
     var responseData = json.decode(response.body);
     var queArr=responseData['quiz_ques'];
     queArr.forEach((jobDetail) {
-     // print(jobDetail['answers'].length);
-      //print(jobDetail['answers'][3]['answer']);
-
-      final Question question = Question(
+     final Question question = Question(
         //quiz_id: jobDetail['quiz_id'],
         question: _parseHtmlString(jobDetail['question']),
         answers: jobDetail['answers'],

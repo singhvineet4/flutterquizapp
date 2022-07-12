@@ -58,7 +58,6 @@ class _HomeState extends State<Home> {
           title: Text("Submit"),
           backgroundColor: Colors.redAccent,
         ),
-
         body: Container(
             alignment: Alignment.topCenter,
             padding: EdgeInsets.all(20),
