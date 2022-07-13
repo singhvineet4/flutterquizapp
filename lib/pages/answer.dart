@@ -27,10 +27,7 @@ class _HomeState extends State<Home> {
     setState(() {
       loading = true;
     });
-
     final url = "https://www.hiringmirror.com/api/submit-quiz-answers.php";
-
-
     Response response = await dio.post(url);
     apidata = response.data;
 

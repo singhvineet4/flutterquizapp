@@ -21,6 +21,40 @@ class _ProfilePageState extends State<ProfilePage>{
   double  _drawerIconSize = 24;
   final List<Question> items = [];
 
+
+
+
+
+ var  listoptions={
+0:0,
+   1:9,     15:9,
+   2:9,    16:9,
+   3:9,      17:9,
+   4:9,      18:9,
+   5:9,       19:9,
+   6:9,        20:9,
+   7:9,       21:9,
+   8:9,      22:9,
+   9:9,      23:9,
+   10:9,      24:9,
+   11:9,      25:9,
+   12:9,     26:9,
+   13:9,      27:9,
+   14:9 ,     28:9,
+   29:9
+  };
+
+
+  /*
+  {
+  "qid":ans,
+
+  }
+
+
+
+   */
+
   PageController _allpagecont=new PageController();
 
   @override
@@ -43,11 +77,11 @@ class _ProfilePageState extends State<ProfilePage>{
             floatingActionButton: FloatingActionButton.extended(
              label: this.items.length!=index+1?Text("Next"):Text("Finish"),
               onPressed: () async{
-                Result();
                if( this.items.length!=index+1){
                  _allpagecont.animateToPage(index+1, duration: Duration(milliseconds: 300), curve: Curves.linear);
                }
                else{
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Result()));
                }
               },
             ),
@@ -66,13 +100,20 @@ class _ProfilePageState extends State<ProfilePage>{
                    itemBuilder: (context,list_index){
                  return Row(
                    children: [
-                     Radio(value: this.items[index]==999?false:this.items[index]==list_index?true:false,  onChanged: (vms){
+                     Radio(
+                          activeColor: Colors.red,
+                         groupValue: listoptions[index]==9?1:listoptions[index]==list_index?0:1,
+                         value: 0,  onChanged: (vms){
 
+                   // value:listoptions[index]==9?ƒfalse:listoptions[index]==list_index?true:false
+                       setState(() {
+                         listoptions[index]=list_index;
+                        print(listoptions[index].toString()+":::"+list_index.toString());
+                       });
                      }),
                      Text(this.items[index].answers[list_index]["answer"]),
                    ],
                  );
-
                }),
              )
             ],),
@@ -84,8 +125,6 @@ class _ProfilePageState extends State<ProfilePage>{
   int get countOfQuestion => _questionsList.length;
 
   final List<Question> _questionsList = [Question()];
-
-
 
   Future <Question> getJob() async{
     final http.Response response = await http.get(Uri.parse("https://www.hiringmirror.com/api/assigned-quiz.php?quiz_id=26"));
@@ -103,80 +142,7 @@ class _ProfilePageState extends State<ProfilePage>{
       });
     });
   }
-
 }
-
-
-bool _ispressed = false;
-
-bool get isPressed => _ispressed;
-
-double _numberOfQuestion = 1;
-double get numberOfQuestion => _numberOfQuestion;
-int _selectAnswer;
-int get selectAnswer => _selectAnswer;
-//int? _correctAnswer;
-//int? _correctAnswer;
-//int get countOfCorrectAnswers => _countOfCorrectAnswers;
-
-final Map<int, bool> _questionIsAnswerd = {};
-PageController pageController;
-Timer _timer;
-final maxSec = 15;
-final RxInt _sec = 15.obs;
-RxInt get sec => _sec;
-
-
-//check if the question has been answered
-bool checkIsQuestionAnswered(int quesId) {
-  return _questionIsAnswerd.entries
-      .firstWhere((element) => element.key == quesId)
-      .value;
-}
-
-void nextQuestion() {
-  if (_timer != null || _timer.isActive) {
-    stopTimer();
-  }
-
-  var _questionsList;
-  if (pageController.page == _questionsList.length - 1) {
-
-
-  } else {
-    var _isPressed = false;
-    pageController.nextPage(
-        duration: const Duration(milliseconds: 500), curve: Curves.linear);
-
-    startTimer();
-  }
-  _numberOfQuestion = pageController.page + 2;
-  update();
-}
-
-void update() {
-}
-
-
-
-
-void startTimer() {
-  resetTimer();
-  _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    if (_sec.value > 0) {
-      _sec.value--;
-    } else {
-      stopTimer();
-      nextQuestion();
-    }
-  });
-}
-
-void resetTimer() => _sec.value = maxSec;
-
-void stopTimer() => _timer.cancel();
-
-
 
 String _parseHtmlString(String htmlString) {
   final document = parse(htmlString);
